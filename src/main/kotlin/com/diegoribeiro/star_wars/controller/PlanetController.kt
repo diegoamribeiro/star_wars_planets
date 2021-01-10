@@ -54,7 +54,6 @@ class PlanetController{
             status = HttpStatus.ACCEPTED
         }
         return ResponseEntity(Unit, status)
-
     }
 
     @GetMapping
