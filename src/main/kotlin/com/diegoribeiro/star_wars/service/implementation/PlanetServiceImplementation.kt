@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 @Component
 class PlanetServiceImplementation(val planetRepository: PlanetRepository) : PlanetService{
 
-    @Cacheable
+    @Cacheable("planets")
     override fun getById(id: Long): Planet? {
         return planetRepository.findById(id).orElse(null)
     }

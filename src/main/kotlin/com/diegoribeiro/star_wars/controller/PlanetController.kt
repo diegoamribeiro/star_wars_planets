@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 @Suppress("UNREACHABLE_CODE")
@@ -21,7 +22,12 @@ class PlanetController{
     lateinit var planetService: PlanetService
 
     @PostMapping
-    fun createPlanet(@RequestBody planet: Planet): ResponseEntity<ResponseJson>{
+    fun createPlanet(@RequestParam("photo") multipartFile: MultipartFile): ResponseEntity<ResponseJson>{
+
+        val planet = Planet()
+        val fileName: String? = multipartFile.originalFilename?.let { org.springframework.util.StringUtils.cleanPath(it) }
+        planet.photo = multipartFile.bytes
+
         planetService.create(planet)
         return ResponseEntity(ResponseJson("Ok", Date()), HttpStatus.CREATED)
     }
