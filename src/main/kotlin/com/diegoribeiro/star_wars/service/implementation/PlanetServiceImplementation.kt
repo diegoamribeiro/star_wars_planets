@@ -3,6 +3,7 @@ package com.diegoribeiro.star_wars.service.implementation
 import com.diegoribeiro.star_wars.model.Planet
 import com.diegoribeiro.star_wars.repository.PlanetRepository
 import com.diegoribeiro.star_wars.service.PlanetService
+import com.mysql.cj.util.Base64Decoder
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component

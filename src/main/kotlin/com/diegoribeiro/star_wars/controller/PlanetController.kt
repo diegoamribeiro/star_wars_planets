@@ -1,10 +1,8 @@
 package com.diegoribeiro.star_wars.controller
 
-import com.diegoribeiro.star_wars.model.ErrorMessage
 import com.diegoribeiro.star_wars.model.Planet
 import com.diegoribeiro.star_wars.model.ResponseJson
 import com.diegoribeiro.star_wars.service.PlanetService
-import org.apache.catalina.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,24 +19,35 @@ class PlanetController{
     @Autowired
     lateinit var planetService: PlanetService
 
-    @PostMapping
-    fun createPlanet(@RequestParam("photo") multipartFile: MultipartFile): ResponseEntity<ResponseJson>{
+
+    //@CrossOrigin
+    @PostMapping("/save")
+    fun createPlanet(@RequestParam("name") name: String,
+                     @RequestParam("climate") climate: String,
+                     @RequestParam("terrain") terrain: String,
+                     @RequestParam("life") life: Boolean, @RequestParam("photo") multipartFile: MultipartFile): ResponseEntity<ResponseJson>{
 
         val planet = Planet()
-        val fileName: String? = multipartFile.originalFilename?.let { org.springframework.util.StringUtils.cleanPath(it) }
-        planet.photo = multipartFile.bytes
+        //val fileName: String? = multipartFile.originalFilename?.let { org.springframework.util.StringUtils.cleanPath(it) }
+        with(planet){
+            this.name = name
+            this.climate = climate
+            this.terrain = terrain
+            this.life = life
+            this.photo = multipartFile.bytes
+        }
 
         planetService.create(planet)
         return ResponseEntity(ResponseJson("Ok", Date()), HttpStatus.CREATED)
     }
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long): ResponseEntity<Any>{
+    fun getById(@PathVariable id: Long): ResponseEntity<Planet>{
         val planet = planetService.getById(id)
         return if (planet != null){
             return ResponseEntity(planet, HttpStatus.OK)
         }else{
-            return ResponseEntity(ErrorMessage("PLANET NOT FOUND!", "Planet $id"), HttpStatus.NOT_FOUND)
+            return ResponseEntity(planet, HttpStatus.NOT_FOUND)
         }
     }
 
@@ -62,6 +71,7 @@ class PlanetController{
         return ResponseEntity(Unit, status)
     }
 
+    @CrossOrigin
     @GetMapping
     fun getAllPlanets(): ResponseEntity<List<Planet>>{
         val list = planetService.getAll()
@@ -75,14 +85,4 @@ class PlanetController{
         val status = if (filtered.isEmpty()) HttpStatus.NOT_FOUND else HttpStatus.OK
         return ResponseEntity(filtered, status)
     }
-
-
-
-
-
-
-
-
-
-
 }
