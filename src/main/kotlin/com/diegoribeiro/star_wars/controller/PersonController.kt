@@ -73,7 +73,6 @@ class PersonController {
 }
 
 
-
     @DeleteMapping("/{id}")
     fun deletePerson(@PathVariable id: Long): ResponseEntity<Unit>{
         var status = HttpStatus.NOT_FOUND
@@ -86,13 +85,13 @@ class PersonController {
 
     fun MultipartFile.fileToByteArray() = this.bytes
 
-    fun updateData(id: Long, newPerson: Person){
-        var oldPerson = personService.findByid(id)
-        newPerson.name = oldPerson.name
-        newPerson.birthPlanet = oldPerson.birthPlanet
-        newPerson.specie = oldPerson.specie
-        newPerson.photo = oldPerson.photo
-    }
+//    fun updateData(id: Long, newPerson: Person){
+//        var oldPerson = personService.findByid(id)
+//        newPerson.name = oldPerson.name
+//        newPerson.birthPlanet = oldPerson.birthPlanet
+//        newPerson.specie = oldPerson.specie
+//        newPerson.photo = oldPerson.photo
+//    }
 
 }
 
