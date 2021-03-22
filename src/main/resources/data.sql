@@ -14,6 +14,6 @@ VALUES ('Yoda', 'unknown' , 'unknown', null);
 INSERT INTO tbl_person ( name, birth_planet, specie, photo)
 VALUES ('Chewbacca', 'Kashyyyk' , 'Wookiee', null);
 INSERT INTO tbl_person ( name, birth_planet, specie, photo)
-VALUES ('C-3PO', 'Tatooine' , 'Protocol Droid', null);
+VALUES ('C-3PO', 'Tatooine' , 'Protocol Droid', 'C3PO_EP3.jpg');
 
 

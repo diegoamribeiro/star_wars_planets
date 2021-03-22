@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 
+@Suppress("SENSELESS_COMPARISON")
 @RestController
 @RequestMapping("/persons")
 class PersonController {
@@ -21,7 +22,7 @@ class PersonController {
     fun savePerson(@RequestParam("name") name: String,
                    @RequestParam("birthplanet") birthPlanet: String,
                    @RequestParam("specie")  specie: String,
-                    @RequestParam("photo") multipartFile: MultipartFile): ResponseEntity<ResponseJson>{
+                   @RequestParam("photo") multipartFile: MultipartFile): ResponseEntity<ResponseJson>{
 
         val person = Person()
 
@@ -31,11 +32,11 @@ class PersonController {
             this.specie = specie
             this.photo = multipartFile.fileToByteArray()
         }
-
         personService.save(person)
         return ResponseEntity(ResponseJson("Ok", Date()), HttpStatus.CREATED)
     }
 
+    @CrossOrigin
     @GetMapping
     fun getAllPersons(): ResponseEntity<List<Person>>{
         val list = personService.findAll()
@@ -81,6 +82,11 @@ class PersonController {
             status = HttpStatus.ACCEPTED
         }
         return ResponseEntity(Unit, status)
+    }
+
+    @GetMapping("count")
+    fun getCount(): Long{
+        return personService.count()
     }
 
     fun MultipartFile.fileToByteArray() = this.bytes
